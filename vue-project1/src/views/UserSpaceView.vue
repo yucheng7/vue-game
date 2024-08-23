@@ -11,11 +11,11 @@ function goback() {
     <div class="back-btn" @click="goback">回上一頁</div>
     <div class="main-contentbox">
       <div class="user-player"></div>
-      <div class="item-type" >
+      <div class="item-type">
         <div class="type-box" v-for="index in 5" :key="index">{{ index }}</div>
       </div>
       <div class="user-item">
-        <div class="item-box"v-for="index in 20" :key="index">{{ index }}</div>
+        <div class="item-box" v-for="index in 19" :key="index">{{ index }}</div>
       </div>
     </div>
   </div>
@@ -65,7 +65,7 @@ function goback() {
       text-align: center;
       line-height: 50px;
       width: 10vh;
-      height:100%;
+      height: 100%;
 
       color: white;
       background-color: blue;
@@ -77,20 +77,20 @@ function goback() {
     width: 100%;
     height: 30%;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
     overflow-y: auto;
-    overflow-x: hidden;
 
-    background-color: lightblue;
+    background-color: orange;
 
     .item-box {
       min-width: 80px;
       height: 80px;
-      
-
-
-      border: 1px solid black;
-      box-sizing: border-box;
+      line-height: 80px;
+      margin-top: 10px;
+      text-align: center;
+      border-radius: 10px;
+      background-color: white;
     }
   }
 }
