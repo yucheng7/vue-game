@@ -70,7 +70,7 @@ const selfrank: Player = {
           v-for="(user, index) in rankdata"
           :key="index"
         >
-          <div class="ranklist-item-username">{{ user.username }}</div>
+          <div class="ranklist-item-username">{{ index + 1}}{{ user.username }}</div>
           <div class="ranklist-item-userscore">{{ user.score }}</div>
         </div>
       </div>
@@ -117,7 +117,10 @@ const selfrank: Player = {
     align-items: center;
     .page-title {
       width: 100%;
-      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      // text-align: center;
       font-size: 3em;
       font-weight: bold;
       padding: 10px 0 10px 0;
@@ -126,12 +129,12 @@ const selfrank: Player = {
     }
     .top10-ranklist {
       width: 100%;
+      max-height: 70vh;
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      overflow-y: auto;
-      // padding: 20px;
+      overflow: auto;
       .ranklist-item {
         width: 70%;
         display: flex;
@@ -143,7 +146,7 @@ const selfrank: Player = {
         border-radius: 30px;
         // border: 1px solid black;
         background-color: white;
-        margin: 5px 0 5px 0;
+        
       }
       // background-color: white;
     }

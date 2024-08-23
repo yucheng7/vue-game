@@ -26,7 +26,7 @@ const camera = new THREE.PerspectiveCamera(
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 
-const userinfobox = ref<HTMLElement | null>(null);
+const userinfobox = ref();
 
 //創建模型
 const geometry = new THREE.BoxGeometry(1, 1, 1);
