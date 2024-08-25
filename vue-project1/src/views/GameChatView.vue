@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 const router = useRouter();
-function goback() {
+const goback = () => {
   router.push("/gamelobby");
 }
 </script>

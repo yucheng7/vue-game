@@ -10,7 +10,7 @@ import { MTLLoader } from "three/addons/loaders/MTLLoader.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 
 const router = useRouter();
-function goback() {
+const goback = () => {
   router.push("/");
 }
 //創建場景

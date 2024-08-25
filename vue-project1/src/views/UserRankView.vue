@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
+import { ref } from "vue";
+import service from "@/utils/request";
+
 const router = useRouter();
-function goback() {
+const goback = () => {
   router.push("/gamelobby");
 }
 
@@ -57,6 +60,21 @@ const selfrank: Player = {
   username: "YC",
   score: 10000,
 };
+
+
+// 獲取所有使用者資料
+const getalluserdata = async () => {
+  try {
+ const res = await service.get("/users/all-users");
+ console.log(res);
+ newarray.value = res;
+  }catch (err) {
+    console.log(err);
+  }
+}
+
+const newarray = ref();
+
 </script>
 
 <template>

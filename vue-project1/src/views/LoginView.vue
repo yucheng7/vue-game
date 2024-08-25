@@ -1,13 +1,56 @@
 <script setup lang="ts">
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
+import service from "@/utils/request";
+import { ref } from "vue";
+
+const route = useRoute();
+const pagevalue = ref(route);
+console.log(pagevalue.value);
+
 const router = useRouter();
-function goback() {
+const goback = () => {
   router.push("/");
+};
+
+const gotolobby = () => {
+  router.push("/gamelobby");
+};
+
+// 創建User型別
+interface User {
+  name: string;
+  email: string;
+  password: string;
 }
 
-function gotolobby() {
-  router.push("/gamelobby");
-}
+const username = ref("");
+const useremail = ref("xxxxx@xxx.com");
+const userpassword = ref("");
+// const user = ref<User>({ name: username.value, email: useremail.value, password: userpassword.value });
+
+// 註冊
+const register = async () => {
+  try {
+    const user = ref<User>({
+      name: username.value,
+      email: useremail.value,
+      password: userpassword.value,
+    });
+    const res = await service.post("/users/add-new-user", user.value);
+    console.log("成功創建新使用者", res.status);
+    router.push("/gamelobby");
+  } catch (err) {
+    console.log(err);
+    alert("輸入錯誤");
+  }
+};
+
+// 登入註冊切換值
+const chooseType = ref<boolean>(true);
+
+// 錯誤值
+const haveError = ref<boolean>(false);
+
 </script>
 
 <template>
@@ -16,21 +59,44 @@ function gotolobby() {
     <div class="main-content">
       <div class="login-form">
         <div class="login-title">
-          <div class="login-title-choose1">註冊</div>
-          <div class="login-title-choose2">登入</div>
+          <div
+            :class="{ 'login-title-choose1': true, 'choose-left': chooseType }"
+            @click="chooseType = true"
+          >
+            註冊
+          </div>
+          <div
+            :class="{
+              'login-title-choose2': true,
+              'choose-right': !chooseType,
+            }"
+            @click="chooseType = false"
+          >
+            登入
+          </div>
         </div>
         <div class="login-typebox">
           <div class="login-user">
             <p>使用者名稱</p>
-            <input type="text" text="" placeholder="請輸入帳號" />
+            <input
+              type="text"
+              text=""
+              v-model="username"
+              placeholder="請輸入帳號"
+            />
           </div>
           <div class="login-password">
             <p class="">密碼</p>
-            <input type="text" text="" placeholder="請輸入密碼" />
+            <input
+              type="text"
+              text=""
+              v-model="userpassword"
+              placeholder="請輸入密碼"
+            />
           </div>
         </div>
-        <p class="login-errormsg">顯示錯誤訊息</p>
-        <button class="login-btn" @click="gotolobby">GO</button>
+        <p class="login-errormsg" :style = "{opacity: haveError ? '1' : '0'}">顯示錯誤訊息</p>
+        <button class="login-btn" @click="register">GO</button>
       </div>
     </div>
   </div>
@@ -51,7 +117,7 @@ function gotolobby() {
     left: 5px;
     width: 100px;
     height: 50px;
-    border-radius: 10px;
+    border-radius: 8px;
     background-color: white;
     font-weight: bold;
     color: orange;
@@ -62,7 +128,8 @@ function gotolobby() {
   }
   .main-content {
     width: 100%;
-    animation: backgdchange 0.5s ease-in forwards;
+    height: 100%;
+    // animation: backgdchange 0.5s ease-in forwards;
     background-color: orange;
     display: flex;
     justify-content: center;
@@ -75,19 +142,23 @@ function gotolobby() {
       justify-content: center;
       align-items: center;
       .login-title {
+        user-select: none;
         font-size: 3em;
         font-weight: bold;
         color: white;
-        padding: 10px;
+        // padding: 10px;
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 20px;
         .login-title-choose1 {
-          padding: 8px;
-          background-color: white;
-          color: orange;
-          border-radius: 8px;
+          // cursor: pointer;
+          padding: 12px 8px;
+          border-radius: 8px 0 0 8px;
+        }
+        .login-title-choose2 {
+          // cursor: pointer;
+          padding: 12px 8px;
+          border-radius: 0 8px 8px 0;
         }
       }
       .login-typebox {
@@ -103,6 +174,7 @@ function gotolobby() {
             color: white;
             line-height: 5vh;
             padding: 5px;
+            user-select: none;
           }
           input {
             width: 70vw;
@@ -125,6 +197,7 @@ function gotolobby() {
             color: white;
             line-height: 5vh;
             padding: 5px;
+            user-select: none;
           }
           input {
             width: 70vw;
@@ -144,29 +217,41 @@ function gotolobby() {
         color: red;
         font-weight: bold;
         font-size: large;
+        user-select: none;
       }
       .login-btn {
         margin-top: 100px;
-        width: 50vw;
-        height: 5vh;
+        padding: 10px 20px;
         border-radius: 5px;
         border: none;
         background-color: white;
         font-size: 2em;
-        font-weight: bolder;
+        font-weight: bold;
         color: orange;
+        // cursor: pointer;
       }
     }
   }
 }
 
-@keyframes backgdchange {
-  0% {
-    height: 100%;
-  }
-
-  100% {
-    height: 85%;
-  }
+.choose-left {
+  background-color: white;
+  color: orange;
+  // transition: all 0.3s ease-in;
 }
+
+.choose-right {
+  background-color: white;
+  color: orange;
+  // transition: background-color 0.3s ease-in;
+}
+// @keyframes backgdchange {
+//   0% {
+//     height: 100%;
+//   }
+
+//   100% {
+//     height: 85%;
+//   }
+// }
 </style>
