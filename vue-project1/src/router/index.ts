@@ -57,4 +57,19 @@ const router = createRouter({
   ],
 });
 
+// 路由驗證
+
+// const token = localStorage.getItem("token");
+// router.beforeEach((to, from, next) => {
+//   if (token || to.path === "/login" || to.path === "/") {
+//     next();
+//   } else {
+//     if (localStorage.getItem("token") === null) {
+//       next("/login");
+//     } else {
+//       next();
+//     }
+//   }
+// })
+
 export default router;
