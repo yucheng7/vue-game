@@ -12,10 +12,6 @@ const goback = () => {
   router.push("/");
 };
 
-const gotolobby = () => {
-  router.push("/gamelobby");
-};
-
 // 創建User型別
 interface User {
   name: string;
@@ -27,33 +23,123 @@ const username = ref("");
 const useremail = ref("xxxxx@xxx.com");
 const userpassword = ref("");
 // const user = ref<User>({ name: username.value, email: useremail.value, password: userpassword.value });
+// 創建使用者
+const user = ref<User>({
+  name: "",
+  email: useremail.value,
+  password: "",
+});
 
-// 註冊
-const register = async () => {
-  try {
-    const user = ref<User>({
-      name: username.value,
-      email: useremail.value,
-      password: userpassword.value,
-    });
-    const res = await service.post("/users/add-new-user", user.value);
-    console.log("成功創建新使用者", res.status);
-    router.push("/gamelobby");
-  } catch (err) {
-    console.log(err);
-    alert("輸入錯誤");
-  }
+const resetUserData = () => {
+  user.value = {
+    name: "",
+    email: useremail.value,
+    password: "",
+  };
 };
+
+// console.log(user.value);
 
 // 登入註冊切換值
 const chooseType = ref<boolean>(true);
 
+// 錯誤訊息
+const errorMsg = ref<string>("預設錯誤訊息");
+
 // 錯誤值
 const haveError = ref<boolean>(false);
 
+// 獲取所有使用者
+const getUser = async () => {
+  try {
+    const res = await service.get("/users/userlist");
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// 確認帳號是否存在資料庫
+const checkUser = async () => {
+  //調用獲取所有使用者的方法
+  const res = await getUser();
+  // 比對是否有此帳號
+  // console.log(res);
+  user.value.name = username.value;
+  user.value.password = userpassword.value;
+  // console.log(user.value);
+  const checkUser = res.find((item: any) => {
+    return item.name == user.value.name;
+  });
+
+  // 回傳是否有此帳號
+  return checkUser;
+};
+
+// 註冊
+const register = async () => {
+  try {
+    // 調用確認帳號是否存在資料庫的函式
+    const check = await checkUser();
+    // 返回值判斷是否可以註冊
+    if (check) {
+      // alert("帳號已存在");
+      errorMsg.value = "帳號已存在";
+      haveError.value = true;
+    } else {
+      // 調用新增使用者的api
+      const res = await service.post(`/users/${user.value.name}`, user.value);
+      // console.log("成功創建新使用者", res.status);
+      alert("註冊成功");
+      haveError.value = false;
+      router.push("/gamelobby");
+    }
+  } catch (err) {
+    // console.log(err);
+    // alert("帳號或密碼格式有誤");
+    errorMsg.value = "帳號或密碼格式有誤";
+    haveError.value = true;
+  }
+};
+
+const login = async () => {
+  try {
+    // 確認帳號是否存在資料庫
+    const check = await checkUser();
+    // 返回值判斷是否可以登入
+    if (check && check.password == userpassword.value) {
+      // alert("登入成功");
+      haveError.value = false;
+      router.push("/gamelobby");
+    } else {
+      errorMsg.value = "帳密錯誤或無使用者";
+      // alert("帳密錯誤或無使用者");
+      haveError.value = true;
+    }
+  } catch (err) {
+    // console.log(err);
+  }
+};
+
+// 選擇註冊或登入
+const choosemethod = async() => {
+  console.log("執行");
+  
+  if (chooseType.value) {
+    await register();
+    resetUserData();
+  } else {
+    await login();
+    resetUserData();
+  }
+};
 </script>
 
 <template>
+  <div class="msg-box">
+    <div class="msg-box-content">這是訊息</div>
+    <button class="msg-box-btn">確認</button>
+  </div>
   <div class="container">
     <div class="back-btn" @click="goback">回上一頁</div>
     <div class="main-content">
@@ -88,21 +174,51 @@ const haveError = ref<boolean>(false);
           <div class="login-password">
             <p class="">密碼</p>
             <input
-              type="text"
+              type="password"
               text=""
               v-model="userpassword"
               placeholder="請輸入密碼"
             />
           </div>
         </div>
-        <p class="login-errormsg" :style = "{opacity: haveError ? '1' : '0'}">顯示錯誤訊息</p>
-        <button class="login-btn" @click="register">GO</button>
+        <p class="login-errormsg" :style="{ opacity: !haveError ? '0' : '1' }">
+          {{ errorMsg }}
+        </p>
+        <button class="login-btn" @click="choosemethod">
+          GO
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
+.msg-box {
+  height: 80px;
+  position: absolute;
+  top: 5%;
+  left: 50%;
+
+  transform: translate(-50%);
+  box-shadow: 0 0 5px 0 black;
+  border-radius: 8px;
+  background-color: white;
+  // display: flex;
+  display: none;
+  justify-content: space-evenly;
+  align-content: center;
+  flex-direction: column;
+  .msg-box-content {
+    width: 100%;
+    text-align: center;
+    line-height: 40px;
+  }
+  .msg-box-btn {
+    width: 150px;
+    margin: auto;
+  }
+}
+
 .container {
   width: 100vw;
   height: 100vh;
@@ -245,6 +361,7 @@ const haveError = ref<boolean>(false);
   color: orange;
   // transition: background-color 0.3s ease-in;
 }
+
 // @keyframes backgdchange {
 //   0% {
 //     height: 100%;

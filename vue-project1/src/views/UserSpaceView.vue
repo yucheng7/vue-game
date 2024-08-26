@@ -7,6 +7,7 @@ const goback = () => {
 </script>
 
 <template>
+  
   <div class="container">
     <div class="back-btn" @click="goback">回上一頁</div>
     <div class="main-contentbox">
@@ -27,6 +28,8 @@ const goback = () => {
 </template>
 
 <style lang="scss" scoped>
+
+
 .container {
   width: 100vw;
   height: 100vh;
@@ -34,6 +37,7 @@ const goback = () => {
   display: flex;
   justify-content: center;
   align-items: center;
+  
   .back-btn {
     position: absolute;
     top: 5px;
