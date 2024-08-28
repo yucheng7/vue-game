@@ -4,19 +4,15 @@ const router = useRouter();
 const goback = () => {
   router.push("/gamelobby")
 }
-
-const gonormal = () => {
-  router.push("/gamemode/normalmode")
-}
 </script>
 
 <template>
   <div class="container">
     <div class="back-btn" @click="goback">回上一頁</div>
     <div class="main-contentbox">
-      <div class="mode-item normal-mode" @click="gonormal">一般遊玩模式</div>
-      <div class="mode-item daily-mode">每日主題任務</div>
-      <div class="mode-item boss-mode">週期BOSS討伐</div>
+      <div class="mode-item normal-mode">XXXXXXX</div>
+      <div class="mode-item daily-mode">XXXXXXXX</div>
+      <div class="mode-item boss-mode">XXXXXXXXXX</div>
     </div>
   </div>
   <div>this is user 遊戲模式</div>

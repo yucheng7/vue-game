@@ -1,10 +1,5 @@
 import express, { Request, Response, Application, Router } from "express";
 import UserModel from "../model/UserModel";
-import connectdb from "../db";
-
-// 連接資料庫
-const databasename = "basic_data";
-connectdb(databasename);
 
 
 // 設定路由

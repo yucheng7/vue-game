@@ -1,6 +1,10 @@
 import express, { Request, Response, Application } from "express";
 import cors from "cors";
+import connectdb from "./db";
+
 import userRouter from "./api/users";
+import gamemodeRouter from "./api/gamemode";
+
 
 const app: Application = express();
 const port = 3000;
@@ -20,6 +24,9 @@ app.use(express.json());
 // 設定userApi路由
 app.use("/api/users", userRouter);
 
+// 設定gamemodeApi路由
+app.use("/api/gamemode", gamemodeRouter);
+
 //啟動伺服器
 app.get("/", (req: Request, res: Response) => {
   res.send("伺服器正常運行中");
@@ -29,5 +36,9 @@ app.get("/", (req: Request, res: Response) => {
 app.listen(port, () => {
   console.log(`伺服器正常運行在http://localhost:${port}`);
 });
+
+// 連接資料庫
+const databasename = "basic_data";
+connectdb(databasename);
 
 export default app;

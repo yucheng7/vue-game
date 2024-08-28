@@ -37,6 +37,18 @@ const router = createRouter({
       name: "gamemode",
       component: () => import("@/views/GameModeView.vue"),
     },{
+      path: "/gamemode/normalmode",
+      name: "normalmode",
+      component: () => import("@/views/GameModePage/NormalMode.vue"),
+    },{
+      path: "/gamemode/dailychallenge",
+      name: "dailychallenge",
+      component: () => import("@/views/GameModePage/DailyChallenge.vue"),
+    },{
+      path: "/gamemode/bossfightmode",
+      name: "bossfightmode",
+      component: () => import("@/views/GameModePage/BossFightMode.vue"),
+    },{
       path: "/gamesetting",
       name: "gamesetting",
       component: () => import("@/views/GameSettingView.vue"),
@@ -59,17 +71,17 @@ const router = createRouter({
 
 // 路由驗證
 
-// const token = localStorage.getItem("token");
-// router.beforeEach((to, from, next) => {
-//   if (token || to.path === "/login" || to.path === "/") {
-//     next();
-//   } else {
-//     if (localStorage.getItem("token") === null) {
-//       next("/login");
-//     } else {
-//       next();
-//     }
-//   }
-// })
+const token = localStorage.getItem("token");
+router.beforeEach((to, from, next) => {
+  if (token || to.path === "/login" || to.path === "/") {
+    next();
+  } else {
+    if (localStorage.getItem("token") === null) {
+      next("/login");
+    } else {
+      next();
+    }
+  }
+})
 
 export default router;

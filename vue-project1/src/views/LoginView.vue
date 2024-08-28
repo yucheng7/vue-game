@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { useRouter, useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 import service from "@/utils/request";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
-const route = useRoute();
-const pagevalue = ref(route);
-console.log(pagevalue.value);
+onMounted(() => {
+})
 
 const router = useRouter();
 const goback = () => {
@@ -91,6 +90,7 @@ const register = async () => {
       const res = await service.post(`/users/${user.value.name}`, user.value);
       // console.log("成功創建新使用者", res.status);
       alert("註冊成功");
+      localStorage.setItem("token", JSON.stringify(user.value));
       haveError.value = false;
       router.push("/gamelobby");
     }
@@ -102,6 +102,7 @@ const register = async () => {
   }
 };
 
+// 登入
 const login = async () => {
   try {
     // 確認帳號是否存在資料庫
@@ -109,6 +110,7 @@ const login = async () => {
     // 返回值判斷是否可以登入
     if (check && check.password == userpassword.value) {
       // alert("登入成功");
+      localStorage.setItem("token", JSON.stringify(user.value));
       haveError.value = false;
       router.push("/gamelobby");
     } else {
@@ -133,6 +135,8 @@ const choosemethod = async() => {
     resetUserData();
   }
 };
+
+
 </script>
 
 <template>
