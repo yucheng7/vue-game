@@ -10,13 +10,17 @@ const questionList = ref([]);
 
 const getQuestion = async() => {
     const res = await service.get("/gamemode/normalmode")
-    console.log(res);
-    
+    questionList.value = res.data[0].textArr;
+    console.log(res.data[0].textArr);
 }
 getQuestion();
-const resetQuestion = () => {
-  const allQuestions:Array<string> = []
 
+const oneQuestion = ref();
+const resetQuestion = () => {
+  oneQuestion.value = questionList.value[Math.floor(Math.random() * questionList.value.length + 1)];
+  if(!oneQuestion.value){
+    resetQuestion();
+  }
 };
 const question = ref("問題");
 </script>
@@ -26,7 +30,7 @@ const question = ref("問題");
     <div class="back-btn" @click="resetQuestion">重設題目</div>
     <div class="main-contentbox">
       <div class="top-aria">
-        <div class="question whitebox">{{ question }}</div>
+        <div class="question whitebox">{{ oneQuestion }}</div>
       </div>
       <div class="bottom-aria">
         <input type="text" class="whitebox answer" placeholder="請輸入回答" />

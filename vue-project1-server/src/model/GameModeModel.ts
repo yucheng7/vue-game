@@ -8,6 +8,6 @@ const quesSchema = new Schema({
   textArr: { type: [String], required: true },
 });
 
-const QuesModel = mongoose.model<Ques>("fake_questions", quesSchema);
+const QuesModel = mongoose.model<Ques>("questions", quesSchema);
 
 export default QuesModel;

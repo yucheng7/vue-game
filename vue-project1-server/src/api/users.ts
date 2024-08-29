@@ -1,7 +1,6 @@
 import express, { Request, Response, Application, Router } from "express";
 import UserModel from "../model/UserModel";
 
-
 // 設定路由
 const router = Router();
 
@@ -57,6 +56,7 @@ router.put("/:userid", async (req: Request, res: Response) => {
       req.body,
       { new: true }
     );
+
     if (user) {
       res.json(user);
     } else {
@@ -71,7 +71,6 @@ router.put("/:userid", async (req: Request, res: Response) => {
 router.put("/:userid", async (req: Request, res: Response) => {
   try {
     const user = await UserModel.findById(req.params.userid);
-
   } catch (err) {
     console.log("更改特定使用者資料失敗", err);
   }

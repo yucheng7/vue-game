@@ -6,9 +6,9 @@ const router = Router();
 
 router.get("/normalmode", async(req: Request, res: Response) => {
     try{
-        const ques = await QuesModel.findOne();
+        const ques = await QuesModel.find();
         console.log(ques);
-        
+        res.json(ques);
     }catch(err){
         console.log(err);
         
