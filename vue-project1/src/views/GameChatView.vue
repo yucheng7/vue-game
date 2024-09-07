@@ -11,7 +11,6 @@ const goback = () => {
     <div class="back-btn" @click="goback">回上一頁</div>
     <div class="main-contentbox"></div>
   </div>
-  <div>this is user 好友系統</div>
 </template>
 
 <style lang="scss" scoped>

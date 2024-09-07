@@ -19,7 +19,6 @@ const gonormal = () => {
       <div class="mode-item boss-mode">週期BOSS討伐</div>
     </div>
   </div>
-  <div>this is user 遊戲模式</div>
 </template>
 
 <style lang="scss" scoped>

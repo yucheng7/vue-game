@@ -4,6 +4,8 @@ import service from "@/utils/request";
 import { onMounted, ref } from "vue";
 
 onMounted(() => {
+
+
 })
 
 const router = useRouter();
@@ -19,8 +21,11 @@ interface User {
 }
 
 const username = ref("");
+username.value = JSON.parse(localStorage.getItem("token")).name
+
 const useremail = ref("xxxxx@xxx.com");
 const userpassword = ref("");
+userpassword.value = JSON.parse(localStorage.getItem("token")).password
 // const user = ref<User>({ name: username.value, email: useremail.value, password: userpassword.value });
 // 創建使用者
 const user = ref<User>({
