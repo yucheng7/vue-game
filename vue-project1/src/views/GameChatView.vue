@@ -1,15 +1,32 @@
 <script setup lang="ts">
+import { ref } from "vue";
+import { useSocketStore } from "../stores/socket";
+
 import { useRouter } from "vue-router";
-const router = useRouter();
-const goback = () => {
-  router.push("/gamelobby");
-}
+// const router = useRouter();
+
+const getMessages = ref<string>("測試用文字")
+const data = ref<string[]>([
+  "測試用文字",
+  "測試用文字2",
+  "測試用文字3"
+])
+
+const socketStore = useSocketStore();
+socketStore.sendMessage(data.value[0]);
+console.log(socketStore.messages);
+
+
 </script>
 
 <template>
   <div class="container">
-    <div class="back-btn" @click="goback">回上一頁</div>
-    <div class="main-contentbox"></div>
+    <div class="back-btn" @click="">傳送訊息</div>
+    <div class="main-contentbox">
+      <div class="messages-box">
+        {{ getMessages }}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -35,6 +52,25 @@ const goback = () => {
     text-align: center;
     line-height: 50px;
     border: 1px solid orange;
+  }
+  .main-contentbox {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .messages-box {
+      width: 100%;
+      height: 60px;
+      background-color: lightcyan;
+      line-height: 60px;
+      text-align: center;
+      font-size: 1.5em;
+      font-weight: bold;
+    }
   }
 }
 </style>

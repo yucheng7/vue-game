@@ -26,6 +26,28 @@ const io = new Server(httpServer, {
   },
 });
 
+// 開始連線
+io.on('connection', (socket)=> {
+  console.log('Client connected: ' + socket.id);
+
+  // 發送訊息
+  socket.emit('message', 'Hello!')
+
+  // 接收訊息
+  socket.on('sendMessage', (msg: string)=> {
+    console.log('Client sent: ' + msg);
+
+  // 發送給前端
+    io.emit('message', msg);
+  })
+
+  //監聽斷線
+  socket.on('disconnect', () => {
+    console.log('User disconnected:', socket.id);
+  });
+
+})
+
 // 設定跨域
 app.use(cors(corsOptions));
 // 設定解析 JSON 資料的中間件
