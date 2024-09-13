@@ -30,15 +30,19 @@ const io = new Server(httpServer, {
 io.on('connection', (socket)=> {
   console.log('Client connected: ' + socket.id);
 
-  // 發送訊息
-  socket.emit('message', 'Hello!')
-
-  // 接收訊息
+  socket.on('connect', () => {
+    console.log("連接成功");
+    
+  })
+  // 接收sendMessage事件並回覆
   socket.on('sendMessage', (msg: string)=> {
-    console.log('Client sent: ' + msg);
-
-  // 發送給前端
-    io.emit('message', msg);
+    console.log('Client sent!: ' + msg);
+    console.log('before', 3);
+    
+    // 發送給前端訊息
+    io.emit('messages', msg);
+    console.log(3);
+    
   })
 
   //監聽斷線

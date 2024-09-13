@@ -11,16 +11,22 @@ interface Message {
 
 export const useSocketStore = defineStore('socket', () => {
     const socket = io('http://localhost:3000');
-    const messages = ref<Message[]>([]);
+    const messages = ref<string[]>([]);
 
-    // 接收訊息
-    socket.on('messages', (msg: Message)=> {
+    socket.on('connect', () => {
+        console.log('連接成功');
+    });
+
+    // 接收伺服器messages事件
+    socket.on('messages', (msg: string)=> {
         messages.value.push(msg);
+        
     })
 
-    // 發送訊息
+    // 前端發送sendMessage事件
     const sendMessage = (msg: string)=> {
         socket.emit('sendMessage', msg)
+        console.log(2);
     }
 
     return { sendMessage, messages };

@@ -5,27 +5,54 @@ import { useSocketStore } from "../stores/socket";
 import { useRouter } from "vue-router";
 // const router = useRouter();
 
-const getMessages = ref<string>("測試用文字")
-const data = ref<string[]>([
-  "測試用文字",
-  "測試用文字2",
-  "測試用文字3"
-])
 
-const socketStore = useSocketStore();
-socketStore.sendMessage(data.value[0]);
-console.log(socketStore.messages);
 
+const { sendMessage, messages } = useSocketStore();
+
+const msg = ref<string>("");
+
+const sendSomething = (data: string) => {
+  if (data) {
+    //使用store中的sendMessage函式
+    sendMessage(data);
+    console.log(messages);
+  } else {
+    console.log("請輸入訊息");
+  }
+  msg.value = "";
+  scrollToBottom();
+};
+
+const cleanInput = () => {
+  msg.value = "";
+};
+
+const scrollToBottom = () => {
+  const msgBox = document.querySelector(".messages-box");
+  msgBox?.scrollTo({
+    top:msgBox.scrollHeight,
+    behavior: "smooth",
+});
+scrollToBottom();
+
+}
 
 </script>
 
 <template>
   <div class="container">
-    <div class="back-btn" @click="">傳送訊息</div>
+    <div class="back-btn" @click="cleanInput">清空輸入</div>
     <div class="main-contentbox">
       <div class="messages-box">
-        {{ getMessages }}
+        <div
+          class="msg-item"
+          v-for="(item, index) in messages"
+          :key="index + 1"
+        >
+          {{ index + `.` + item }}
+        </div>
       </div>
+      <input class="msg-input" @keypress.enter="sendSomething(msg)" type="text" v-model="msg" />
     </div>
   </div>
 </template>
@@ -34,7 +61,7 @@ console.log(socketStore.messages);
 .container {
   width: 100vw;
   height: 100vh;
-  background-color: orange;
+  // background-color: orange;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -57,19 +84,43 @@ console.log(socketStore.messages);
     width: 100%;
     height: 100%;
     background-color: white;
-    padding: 10px;
+    // padding: 10px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-
+    flex-direction: column;
+    box-sizing: border-box;
     .messages-box {
       width: 100%;
-      height: 60px;
-      background-color: lightcyan;
-      line-height: 60px;
-      text-align: center;
+      height: 100%;
+      // background-color: lightcyan;
       font-size: 1.5em;
       font-weight: bold;
+      overflow: auto;
+      .msg-item {
+        width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        background-color: antiquewhite;
+      }
+    }
+    .msg-input {
+      width: 100%;
+      height: 50px;
+      background-color: lightgray;
+      border: none;
+      padding: 10px;
+      box-sizing: border-box;
+      font-size: 1.5em;
+      font-weight: bold;
+      text-align: center;
+    }
+    
+    :focus {
+      outline: none;
     }
   }
 }
