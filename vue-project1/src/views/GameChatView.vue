@@ -25,14 +25,13 @@ const cleanInput = () => {
 };
 
 const scrollToBottom = () => {
-  setTimeout(()=> {
+  setTimeout(() => {
     const msgBox = document.querySelector(".messages-box");
     msgBox?.scrollTo({
       top: msgBox.scrollHeight,
       behavior: "smooth",
     });
-  }, 200)
-
+  }, 200);
 };
 
 const createText = () => {
@@ -110,7 +109,7 @@ const createText = () => {
   .main-contentbox {
     width: 100%;
     height: 100%;
-    background-color: white;
+    background-color: orange;
     // padding: 10px;
     display: flex;
     justify-content: space-between;
@@ -120,30 +119,42 @@ const createText = () => {
     .messages-box {
       width: 100%;
       height: 100%;
-      // background-color: lightcyan;
-      font-size: 1.5em;
-      font-weight: bold;
+      background-color: orange;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
       overflow: auto;
+      // gap: 20px;
+
+      // box-sizing: border-box;
       .msg-item {
-        width: 100%;
+        max-width: 80%;
         padding: 20px;
         box-sizing: border-box;
         display: flex;
         justify-content: flex-end;
         align-items: center;
-        background-color: antiquewhite;
+        background-color: white;
+        margin: 20px 20px 0px 0px;
+        font-size: 1.2em;
+        font-weight: bold;
+        border-radius: 8px;
+        word-break: break-all;
+        line-height: 1.5;
+      }
+      .msg-item:last-child {
+        margin-bottom: 20px;
       }
     }
     .msg-input {
       width: 100%;
-      height: 50px;
-      background-color: lightgray;
-      border: none;
-      padding: 10px;
+      min-height: 50px;
+      background-color: white;
+      border: 1px solid orange;
+      padding: 20px;
       box-sizing: border-box;
       font-size: 1.5em;
       font-weight: bold;
-      text-align: center;
     }
 
     :focus {
