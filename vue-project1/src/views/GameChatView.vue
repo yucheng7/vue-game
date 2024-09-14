@@ -37,11 +37,17 @@ scrollToBottom();
 
 }
 
+const createText = () => {
+  const text: string = "我是測試用訊息";
+  
+}
+
 </script>
 
 <template>
   <div class="container">
     <div class="back-btn" @click="cleanInput">清空輸入</div>
+    <div class="test-btn" @click="createText">生成訊息</div>
     <div class="main-contentbox">
       <div class="messages-box">
         <div
@@ -69,6 +75,21 @@ scrollToBottom();
     position: absolute;
     top: 5px;
     left: 5px;
+    width: 100px;
+    height: 50px;
+    border-radius: 10px;
+    background-color: white;
+    font-weight: bold;
+    color: orange;
+    font-size: 1.2em;
+    text-align: center;
+    line-height: 50px;
+    border: 1px solid orange;
+  }
+  .test-btn {
+    position: absolute;
+    top: 5px;
+    left: 110px;
     width: 100px;
     height: 50px;
     border-radius: 10px;
