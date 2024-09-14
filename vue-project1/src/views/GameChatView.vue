@@ -5,8 +5,6 @@ import { useSocketStore } from "../stores/socket";
 import { useRouter } from "vue-router";
 // const router = useRouter();
 
-
-
 const { sendMessage, messages } = useSocketStore();
 
 const msg = ref<string>("");
@@ -15,7 +13,6 @@ const sendSomething = (data: string) => {
   if (data) {
     //使用store中的sendMessage函式
     sendMessage(data);
-    console.log(messages);
   } else {
     console.log("請輸入訊息");
   }
@@ -28,20 +25,24 @@ const cleanInput = () => {
 };
 
 const scrollToBottom = () => {
-  const msgBox = document.querySelector(".messages-box");
-  msgBox?.scrollTo({
-    top:msgBox.scrollHeight,
-    behavior: "smooth",
-});
-scrollToBottom();
+  setTimeout(()=> {
+    const msgBox = document.querySelector(".messages-box");
+    msgBox?.scrollTo({
+      top: msgBox.scrollHeight,
+      behavior: "smooth",
+    });
+  }, 200)
 
-}
+};
 
 const createText = () => {
-  const text: string = "我是測試用訊息";
-  
-}
-
+  const defaultText: string = "我是測試用訊息";
+  const textArr = ref<string[]>([]);
+  for (let i = 0; i < 12; i++) {
+    sendMessage(defaultText);
+  }
+  scrollToBottom();
+};
 </script>
 
 <template>
@@ -58,7 +59,12 @@ const createText = () => {
           {{ index + `.` + item }}
         </div>
       </div>
-      <input class="msg-input" @keypress.enter="sendSomething(msg)" type="text" v-model="msg" />
+      <input
+        class="msg-input"
+        @keypress.enter="sendSomething(msg)"
+        type="text"
+        v-model="msg"
+      />
     </div>
   </div>
 </template>
@@ -139,7 +145,7 @@ const createText = () => {
       font-weight: bold;
       text-align: center;
     }
-    
+
     :focus {
       outline: none;
     }
