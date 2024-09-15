@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
+import { ref } from "vue";
+import service from "@/utils/request";
+
 const router = useRouter();
-function goback() {
+const goback = () => {
   router.push("/gamelobby");
 }
 
@@ -57,6 +60,21 @@ const selfrank: Player = {
   username: "YC",
   score: 10000,
 };
+
+
+// 獲取所有使用者資料
+const getalluserdata = async () => {
+  try {
+ const res = await service.get("/users/all-users");
+ console.log(res);
+ newarray.value = res;
+  }catch (err) {
+    console.log(err);
+  }
+}
+
+const newarray = ref();
+
 </script>
 
 <template>
@@ -70,7 +88,7 @@ const selfrank: Player = {
           v-for="(user, index) in rankdata"
           :key="index"
         >
-          <div class="ranklist-item-username">{{ user.username }}</div>
+          <div class="ranklist-item-username">{{ index + 1}}{{ user.username }}</div>
           <div class="ranklist-item-userscore">{{ user.score }}</div>
         </div>
       </div>
@@ -113,57 +131,54 @@ const selfrank: Player = {
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
+    overflow: hidden;
     .page-title {
+      // background-color: white;
       width: 100%;
-      text-align: center;
       font-size: 3em;
       font-weight: bold;
-      padding: 10px 0 10px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 30px;
       color: white;
-      // background-color: white;
     }
     .top10-ranklist {
+      // background-color: white;
       width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      overflow-y: auto;
-      // padding: 20px;
+      height: 70%;
+      overflow-y: scroll;
       .ranklist-item {
-        width: 70%;
+        width: 80%;
+        background-color: white;
+        font-size: 1.5em;
+        font-weight: bold;
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding: 20px;
-        font-size: 1.5em;
-        font-weight: bold;
-        border-radius: 30px;
-        // border: 1px solid black;
-        background-color: white;
-        margin: 5px 0 5px 0;
+        margin: 0px auto 10px;
+        border-radius: 8px;
       }
-      // background-color: white;
+      box-sizing: border-box;
     }
     .selfrank {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       // background-color: white;
+      width: 100%;
+      padding: 20px;
       .selfrank-item {
-        width: 70%;
+        width: 80%;
+        font-size: 1.5em;
+        font-weight: bold;
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding: 20px;
-        font-size: 1.5em;
-        font-weight: bold;
-        // border: 1px solid black;
         background-color: white;
-        
+        margin: auto;
+        border-radius: 8px;
       }
     }
   }

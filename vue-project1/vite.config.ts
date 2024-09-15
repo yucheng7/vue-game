@@ -15,7 +15,7 @@ export default defineConfig({
   },
   server: {
     // host: '0.0.0.0', // 允許所有網絡接口
-    port: 5174, // 默認端口，可以根據需要修改
+    port: 5173, // 默認端口，可以根據需要修改
     // strictPort: true
   }
 })
