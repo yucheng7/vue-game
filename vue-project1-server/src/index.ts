@@ -7,7 +7,6 @@ import { Server } from "socket.io";
 import userRouter from "./api/users";
 import gamemodeRouter from "./api/gamemode";
 
-
 const app: Application = express();
 const port = 3000;
 
@@ -27,30 +26,27 @@ const io = new Server(httpServer, {
 });
 
 // 開始連線
-io.on('connection', (socket)=> {
-  console.log('Client connected: ' + socket.id);
+io.on("connection", (socket) => {
+  console.log("Client connected: " + socket.id);
 
-  socket.on('connect', () => {
+  socket.on("connect", () => {
     console.log("連接成功");
-    
-  })
+  });
   // 接收sendMessage事件並回覆
-  socket.on('sendMessage', (msg: string)=> {
-    console.log('Client sent!: ' + msg);
-    console.log('before', 3);
-    
-    // 發送給前端訊息
-    io.emit('messages', msg);
-    console.log(3);
-    
-  })
+  socket.on("sendMessage", (msg: string) => {
+    console.log("Client sent!: " + msg);
+    console.log("before", 3);
 
-  //監聽斷線
-  socket.on('disconnect', () => {
-    console.log('User disconnected:', socket.id);
+    // 發送給前端訊息
+    io.emit("messages", msg);
+    console.log(3);
   });
 
-})
+  //監聽斷線
+  socket.on("disconnect", () => {
+    console.log("User disconnected:", socket.id);
+  });
+});
 
 // 設定跨域
 app.use(cors(corsOptions));

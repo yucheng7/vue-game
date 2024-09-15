@@ -56,7 +56,7 @@ const router = createRouter({
       path: "/gamechat",
       name: "gamechat",
       component: () => import("@/views/GameChatView.vue"),
-    },
+    }
 
     // {
     //   path: '/about',

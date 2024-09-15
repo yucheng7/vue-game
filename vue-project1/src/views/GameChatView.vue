@@ -5,8 +5,6 @@ import { useSocketStore } from "../stores/socket";
 import { useRouter } from "vue-router";
 // const router = useRouter();
 
-
-
 const { sendMessage, messages } = useSocketStore();
 
 const msg = ref<string>("");
@@ -15,7 +13,6 @@ const sendSomething = (data: string) => {
   if (data) {
     //使用store中的sendMessage函式
     sendMessage(data);
-    console.log(messages);
   } else {
     console.log("請輸入訊息");
   }
@@ -28,20 +25,29 @@ const cleanInput = () => {
 };
 
 const scrollToBottom = () => {
-  const msgBox = document.querySelector(".messages-box");
-  msgBox?.scrollTo({
-    top:msgBox.scrollHeight,
-    behavior: "smooth",
-});
-scrollToBottom();
+  setTimeout(() => {
+    const msgBox = document.querySelector(".messages-box");
+    msgBox?.scrollTo({
+      top: msgBox.scrollHeight,
+      behavior: "smooth",
+    });
+  }, 200);
+};
 
-}
-
+const createText = () => {
+  const defaultText: string = "我是測試用訊息";
+  const textArr = ref<string[]>([]);
+  for (let i = 0; i < 12; i++) {
+    sendMessage(defaultText);
+  }
+  scrollToBottom();
+};
 </script>
 
 <template>
   <div class="container">
     <div class="back-btn" @click="cleanInput">清空輸入</div>
+    <div class="test-btn" @click="createText">生成訊息</div>
     <div class="main-contentbox">
       <div class="messages-box">
         <div
@@ -52,7 +58,12 @@ scrollToBottom();
           {{ index + `.` + item }}
         </div>
       </div>
-      <input class="msg-input" @keypress.enter="sendSomething(msg)" type="text" v-model="msg" />
+      <input
+        class="msg-input"
+        @keypress.enter="sendSomething(msg)"
+        type="text"
+        v-model="msg"
+      />
     </div>
   </div>
 </template>
@@ -80,10 +91,25 @@ scrollToBottom();
     line-height: 50px;
     border: 1px solid orange;
   }
+  .test-btn {
+    position: absolute;
+    top: 5px;
+    left: 110px;
+    width: 100px;
+    height: 50px;
+    border-radius: 10px;
+    background-color: white;
+    font-weight: bold;
+    color: orange;
+    font-size: 1.2em;
+    text-align: center;
+    line-height: 50px;
+    border: 1px solid orange;
+  }
   .main-contentbox {
     width: 100%;
     height: 100%;
-    background-color: white;
+    background-color: orange;
     // padding: 10px;
     display: flex;
     justify-content: space-between;
@@ -93,32 +119,44 @@ scrollToBottom();
     .messages-box {
       width: 100%;
       height: 100%;
-      // background-color: lightcyan;
-      font-size: 1.5em;
-      font-weight: bold;
+      background-color: orange;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
       overflow: auto;
+      // gap: 20px;
+
+      // box-sizing: border-box;
       .msg-item {
-        width: 100%;
+        max-width: 80%;
         padding: 20px;
         box-sizing: border-box;
         display: flex;
         justify-content: flex-end;
         align-items: center;
-        background-color: antiquewhite;
+        background-color: white;
+        margin: 20px 20px 0px 0px;
+        font-size: 1.2em;
+        font-weight: bold;
+        border-radius: 8px;
+        word-break: break-all;
+        line-height: 1.5;
+      }
+      .msg-item:last-child {
+        margin-bottom: 20px;
       }
     }
     .msg-input {
       width: 100%;
-      height: 50px;
-      background-color: lightgray;
-      border: none;
-      padding: 10px;
+      min-height: 50px;
+      background-color: white;
+      border: 1px solid orange;
+      padding: 20px;
       box-sizing: border-box;
       font-size: 1.5em;
       font-weight: bold;
-      text-align: center;
     }
-    
+
     :focus {
       outline: none;
     }
