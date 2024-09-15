@@ -129,7 +129,7 @@ const createText = () => {
       // box-sizing: border-box;
       .msg-item {
         max-width: 80%;
-        padding: 20px;
+        padding: 10px 20px;
         box-sizing: border-box;
         display: flex;
         justify-content: flex-end;
@@ -148,10 +148,11 @@ const createText = () => {
     }
     .msg-input {
       width: 100%;
-      min-height: 50px;
+      height: 50px;
       background-color: white;
-      border: 1px solid orange;
-      padding: 20px;
+      border: none;
+      border-top: 1px solid orange;
+      padding: 10px;
       box-sizing: border-box;
       font-size: 1.5em;
       font-weight: bold;
