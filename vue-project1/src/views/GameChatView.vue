@@ -47,7 +47,7 @@ const createText = () => {
 <template>
   <div class="container">
     <div class="back-btn" @click="cleanInput">清空輸入</div>
-    <div class="test-btn" @click="createText">生成訊息</div>
+    <div class="test-btn" @click="createText">預設訊息</div>
     <div class="main-contentbox">
       <div class="messages-box">
         <div
