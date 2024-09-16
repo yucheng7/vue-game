@@ -20,10 +20,12 @@ const sendSomething = (data: string) => {
   scrollToBottom();
 };
 
+//清空輸入
 const cleanInput = () => {
   msg.value = "";
 };
 
+//輸入後自動滾動到底部
 const scrollToBottom = () => {
   setTimeout(() => {
     const msgBox = document.querySelector(".messages-box");
@@ -42,6 +44,9 @@ const createText = () => {
   }
   scrollToBottom();
 };
+
+
+
 </script>
 
 <template>
@@ -58,12 +63,14 @@ const createText = () => {
           {{ index + `.` + item }}
         </div>
       </div>
-      <input
-        class="msg-input"
-        @keypress.enter="sendSomething(msg)"
-        type="text"
-        v-model="msg"
-      />
+      <div class="msg-input-box">
+        <input
+          class="msg-input"
+          @keypress.enter="sendSomething(msg)"
+          type="text"
+          v-model="msg"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -146,21 +153,30 @@ const createText = () => {
         margin-bottom: 20px;
       }
     }
-    .msg-input {
+
+    .msg-input-box {
       width: 100%;
-      height: 50px;
-      background-color: white;
-      border: none;
-      border-top: 1px solid orange;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: lightblue;
       padding: 10px;
       box-sizing: border-box;
-      font-size: 1.5em;
-      font-weight: bold;
+      .msg-input {
+        width: 100%;
+        height: 50px;
+        background-color: white;
+        border: none;
+        border-top: 1px solid orange;
+        padding: 10px;
+        font-size: 1.5em;
+        font-weight: bold;
+        &:focus{
+          outline: none;
+        }
+      }
     }
 
-    :focus {
-      outline: none;
-    }
   }
 }
 </style>

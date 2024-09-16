@@ -20,7 +20,7 @@ function changePage() {
 <template>
   <div class="container" @click="changeStartGameBtnState">
     <div class="content-box">
-      <h1 class="title">噗浪大接龍</h1>
+      <h1 class="title">XX大接龍</h1>
       <transition name="fade">
         <div class="startgame" v-if="startGameButtonState">
           <button class="startgame_button" @click="changePage">開始遊戲</button>
