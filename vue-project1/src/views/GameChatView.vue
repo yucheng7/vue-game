@@ -44,9 +44,6 @@ const createText = () => {
   }
   scrollToBottom();
 };
-
-
-
 </script>
 
 <template>
@@ -64,12 +61,18 @@ const createText = () => {
         </div>
       </div>
       <div class="msg-input-box">
+        <div class="msg-input-functionbar">
+
+        </div>
         <input
           class="msg-input"
           @keypress.enter="sendSomething(msg)"
           type="text"
           v-model="msg"
         />
+        <div class="msg-input-sendbutton">
+
+        </div>
       </div>
     </div>
   </div>
@@ -116,7 +119,7 @@ const createText = () => {
   .main-contentbox {
     width: 100%;
     height: 100%;
-    background-color: orange;
+    // background-color: orange;
     // padding: 10px;
     display: flex;
     justify-content: space-between;
@@ -126,7 +129,7 @@ const createText = () => {
     .messages-box {
       width: 100%;
       height: 100%;
-      background-color: orange;
+      // background-color: orange;
       display: flex;
       flex-direction: column;
       align-items: flex-end;
@@ -148,6 +151,8 @@ const createText = () => {
         border-radius: 8px;
         word-break: break-all;
         line-height: 1.5;
+        border: 1px solid orange;
+        box-sizing: border-box;
       }
       .msg-item:last-child {
         margin-bottom: 20px;
@@ -171,12 +176,11 @@ const createText = () => {
         padding: 10px;
         font-size: 1.5em;
         font-weight: bold;
-        &:focus{
+        &:focus {
           outline: none;
         }
       }
     }
-
   }
 }
 </style>

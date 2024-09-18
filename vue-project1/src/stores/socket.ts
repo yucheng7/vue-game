@@ -29,5 +29,7 @@ export const useSocketStore = defineStore('socket', () => {
         console.log(2);
     }
 
+    
+
     return { sendMessage, messages };
 })
