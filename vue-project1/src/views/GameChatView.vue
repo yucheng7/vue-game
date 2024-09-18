@@ -62,7 +62,7 @@ const createText = () => {
       </div>
       <div class="msg-input-box">
         <div class="msg-input-functionbar">
-
+          <div class=""></div>
         </div>
         <input
           class="msg-input"
@@ -70,8 +70,8 @@ const createText = () => {
           type="text"
           v-model="msg"
         />
-        <div class="msg-input-sendbutton">
-
+        <div class="msg-input-sendbutton" @click="sendSomething(msg)">
+          <p>></p>
         </div>
       </div>
     </div>
@@ -119,7 +119,7 @@ const createText = () => {
   .main-contentbox {
     width: 100%;
     height: 100%;
-    // background-color: orange;
+    background-color: orange;
     // padding: 10px;
     display: flex;
     justify-content: space-between;
@@ -129,7 +129,7 @@ const createText = () => {
     .messages-box {
       width: 100%;
       height: 100%;
-      // background-color: orange;
+      background-color: orange;
       display: flex;
       flex-direction: column;
       align-items: flex-end;
@@ -164,20 +164,35 @@ const createText = () => {
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: lightblue;
+      // background-color: lightblue;
       padding: 10px;
       box-sizing: border-box;
       .msg-input {
         width: 100%;
-        height: 50px;
+        height: 30px;
         background-color: white;
         border: none;
-        border-top: 1px solid orange;
+        border: 1px solid orange;
         padding: 10px;
         font-size: 1.5em;
         font-weight: bold;
         &:focus {
           outline: none;
+        }
+      }
+
+      .msg-input-sendbutton {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 30px;
+        height: 30px;
+        padding: 10px;
+        background-color: aliceblue;
+        cursor: pointer;
+        p {
+          font-size: 2rem;
+          line-height: 50px;
         }
       }
     }
