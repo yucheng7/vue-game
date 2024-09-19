@@ -7,6 +7,13 @@ import { useRouter } from "vue-router";
 
 const { sendMessage, messages } = useSocketStore();
 
+
+interface userMsg {
+  name: string,
+  msg: string,
+
+}
+
 const msg = ref<string>("");
 
 const sendSomething = (data: string) => {
@@ -62,7 +69,9 @@ const createText = () => {
       </div>
       <div class="msg-input-box">
         <div class="msg-input-functionbar">
-          <div class=""></div>
+          <div class="msg-input-function-photo">
+            <p>i</p>
+          </div>
         </div>
         <input
           class="msg-input"
@@ -119,7 +128,7 @@ const createText = () => {
   .main-contentbox {
     width: 100%;
     height: 100%;
-    background-color: orange;
+    // background-color: orange;
     // padding: 10px;
     display: flex;
     justify-content: space-between;
@@ -129,13 +138,13 @@ const createText = () => {
     .messages-box {
       width: 100%;
       height: 100%;
-      background-color: orange;
+      // background-color: orange;
       display: flex;
       flex-direction: column;
       align-items: flex-end;
       overflow: auto;
       // gap: 20px;
-
+      
       // box-sizing: border-box;
       .msg-item {
         max-width: 80%;

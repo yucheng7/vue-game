@@ -16,18 +16,19 @@ export const useSocketStore = defineStore('socket', () => {
     socket.on('connect', () => {
         console.log('連接成功');
     });
-
-    // 接收伺服器messages事件
-    socket.on('messages', (msg: string)=> {
-        messages.value.push(msg);
-        
-    })
-
+    
     // 前端發送sendMessage事件
     const sendMessage = (msg: string)=> {
         socket.emit('sendMessage', msg)
         console.log(2);
     }
+    // 接收伺服器messages事件
+    socket.on('messages', (msg: string)=> {
+        messages.value.push(msg);
+        console.log(4);
+        
+    })
+
 
     
 
