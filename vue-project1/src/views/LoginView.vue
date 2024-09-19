@@ -3,10 +3,7 @@ import { useRouter } from "vue-router";
 import service from "@/utils/request";
 import { onMounted, ref } from "vue";
 
-onMounted(() => {
-
-
-})
+onMounted(() => {});
 
 const router = useRouter();
 const goback = () => {
@@ -21,11 +18,13 @@ interface User {
 }
 
 const username = ref("");
-username.value = JSON.parse(localStorage.getItem("token")).name
 
 const useremail = ref("xxxxx@xxx.com");
 const userpassword = ref("");
-userpassword.value = JSON.parse(localStorage.getItem("token")).password
+if (localStorage.getItem("token")) {
+  username.value = JSON.parse(localStorage.getItem("token")).name;
+  userpassword.value = JSON.parse(localStorage.getItem("token")).password;
+}
 // const user = ref<User>({ name: username.value, email: useremail.value, password: userpassword.value });
 // 創建使用者
 const user = ref<User>({
@@ -129,9 +128,9 @@ const login = async () => {
 };
 
 // 選擇註冊或登入
-const choosemethod = async() => {
+const choosemethod = async () => {
   console.log("執行");
-  
+
   if (chooseType.value) {
     await register();
     resetUserData();
@@ -140,8 +139,6 @@ const choosemethod = async() => {
     resetUserData();
   }
 };
-
-
 </script>
 
 <template>
@@ -193,9 +190,7 @@ const choosemethod = async() => {
         <p class="login-errormsg" :style="{ opacity: !haveError ? '0' : '1' }">
           {{ errorMsg }}
         </p>
-        <button class="login-btn" @click="choosemethod">
-          GO
-        </button>
+        <button class="login-btn" @click="choosemethod">GO</button>
       </div>
     </div>
   </div>
