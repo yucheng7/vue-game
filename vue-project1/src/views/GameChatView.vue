@@ -164,7 +164,7 @@ const createText = () => {
       display: flex;
       justify-content: center;
       align-items: center;
-      // background-color: lightblue;
+      // background-color: lightblue; 
       padding: 10px;
       box-sizing: border-box;
       .msg-input {
