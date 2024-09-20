@@ -76,4 +76,24 @@ router.put("/:userid", async (req: Request, res: Response) => {
   }
 });
 
+// 把聊天訊息存入特定使用者
+
+router.post("/savemsgs", async (req: Request, res: Response) => {
+  try {
+    const user = await UserModel.findById(req.body.name);
+    if (user) {
+      console.log("無聊天訊息");
+      user.msgarr = req.body;
+      await user.save();
+    } else {
+      console.log("找不到用户");
+      res.status(404).json();
+    }
+  } catch (err) {
+    console.log("把聊天訊息存入特定使用者失敗", err);
+  }
+});
+
+router.get("/getusermsgs");
+
 export default router;

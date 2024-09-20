@@ -7,18 +7,23 @@ import { useRouter } from "vue-router";
 
 const { sendMessage, messages } = useSocketStore();
 
-
 interface userMsg {
-  name: string,
-  msg: string,
-
+  name: string;
+  msg: string;
+  time: string;
 }
 
 const msg = ref<string>("");
 
-const sendSomething = (data: string) => {
-  if (data) {
+const sendSomething = (msgtext: string) => {
+  if (msgtext) {
     //使用store中的sendMessage函式
+    const time = getTime();
+    const data = {
+      name: localStorage.getItem("name") || "system",
+      msg: msgtext,
+      time: time,
+    };
     sendMessage(data);
   } else {
     console.log("請輸入訊息");
@@ -44,12 +49,30 @@ const scrollToBottom = () => {
 };
 
 const createText = () => {
-  const defaultText: string = "我是測試用訊息";
+  const defaultText: userMsg = {
+    name: "system",
+    msg: "test messages",
+    time: getTime(),
+  };
   const textArr = ref<string[]>([]);
   for (let i = 0; i < 12; i++) {
     sendMessage(defaultText);
   }
   scrollToBottom();
+};
+
+//獲取時間
+const getTime = () => {
+  const hr = new Date().getHours();
+  const min = new Date().getMinutes();
+  const tw = ref<string>("");
+  if (hr <= 12) {
+    tw.value = "上午";
+  } else {
+    tw.value = "下午";
+  }
+  const time = `${tw.value} ${hr}:${min}`;
+  return time;
 };
 </script>
 
@@ -64,13 +87,18 @@ const createText = () => {
           v-for="(item, index) in messages"
           :key="index + 1"
         >
-          {{ index + `.` + item }}
+          <div class="msg-item-time">
+            {{ item.time }}
+          </div>
+          <div class="msg-item-msg">
+            {{ index + `.` + item.msg }}
+          </div>
         </div>
       </div>
       <div class="msg-input-box">
         <div class="msg-input-functionbar">
           <div class="msg-input-function-photo">
-            <p>i</p>
+            <p></p>
           </div>
         </div>
         <input
@@ -80,7 +108,7 @@ const createText = () => {
           v-model="msg"
         />
         <div class="msg-input-sendbutton" @click="sendSomething(msg)">
-          <p>></p>
+          <p>P</p>
         </div>
       </div>
     </div>
@@ -91,7 +119,7 @@ const createText = () => {
 .container {
   width: 100vw;
   height: 100vh;
-  // background-color: orange;
+  background-color: orange;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -128,7 +156,7 @@ const createText = () => {
   .main-contentbox {
     width: 100%;
     height: 100%;
-    // background-color: orange;
+    background-color: orange;
     // padding: 10px;
     display: flex;
     justify-content: space-between;
@@ -138,30 +166,44 @@ const createText = () => {
     .messages-box {
       width: 100%;
       height: 100%;
-      // background-color: orange;
+      // background-color: lightgray;
       display: flex;
       flex-direction: column;
       align-items: flex-end;
       overflow: auto;
       // gap: 20px;
-      
+
       // box-sizing: border-box;
       .msg-item {
-        max-width: 80%;
-        padding: 10px 20px;
-        box-sizing: border-box;
+        width: 100%;
+        // background-color: lightcyan;
         display: flex;
         justify-content: flex-end;
-        align-items: center;
-        background-color: white;
-        margin: 20px 20px 0px 0px;
-        font-size: 1.2em;
-        font-weight: bold;
-        border-radius: 8px;
-        word-break: break-all;
-        line-height: 1.5;
-        border: 1px solid orange;
-        box-sizing: border-box;
+        align-items: flex-end;
+        .msg-item-time {
+          // background-color: lightgreen;
+          // padding: 10px 20px;
+          margin: 20px 10px 20px 0px;
+          font-size: 0.8rem;
+        }
+        .msg-item-msg {
+          max-width: 80%;
+          padding: 10px 20px;
+          box-sizing: border-box;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: white;
+          margin: 20px 20px 20px 0px;
+          font-size: 1.2em;
+          font-weight: bold;
+          border-radius: 8px;
+          word-break: break-all;
+          line-height: 1.5;
+          // border: 1px solid orange;
+          // box-sizing: border-box;
+          // background-color: antiquewhite;
+        }
       }
       .msg-item:last-child {
         margin-bottom: 20px;
@@ -173,7 +215,7 @@ const createText = () => {
       display: flex;
       justify-content: center;
       align-items: center;
-      // background-color: lightblue; 
+      // background-color: lightblue;
       padding: 10px;
       box-sizing: border-box;
       .msg-input {
