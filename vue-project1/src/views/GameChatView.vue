@@ -119,7 +119,7 @@ const getTime = () => {
 .container {
   width: 100vw;
   height: 100vh;
-  background-color: orange;
+  // background-color: orange;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -156,7 +156,7 @@ const getTime = () => {
   .main-contentbox {
     width: 100%;
     height: 100%;
-    background-color: orange;
+    // background-color: orange;
     // padding: 10px;
     display: flex;
     justify-content: space-between;

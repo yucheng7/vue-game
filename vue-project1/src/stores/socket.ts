@@ -31,6 +31,8 @@ export const useSocketStore = defineStore("socket", () => {
   socket.on("messages", (msg: userMsg) => {
     try {
       const res = service.post("users/savemsgs", msg);
+      console.log(res);
+      
     } catch (err) {
       console.log(err);
     }
