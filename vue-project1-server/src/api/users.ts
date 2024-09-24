@@ -84,16 +84,23 @@ router.post("/savemsgs", async (req: Request, res: Response) => {
     const user = await UserModel.find({ name: name });
     console.log("獲得特定使用者成功", user);
     if (user) {
-      const res = await UserModel.find(
+      const userdata = await UserModel.findOneAndUpdate(
         {
-          name: name,
+          name: name
+        },
+        {
+          $push: {
+            msgArr: req.body
+          }
+        },{
+          new: true
         }
       );
-      console.log('執行結束',res);
+      console.log('執行結束',userdata);
       
     } else {
       console.log("找不到用户");
-      res.status(404).json();
+      res.status(404).json("找不到用户");
     }
   } catch (err) {
     console.log("把聊天訊息存入特定使用者失敗", err);
