@@ -19,11 +19,13 @@ const sendSomething = (msgtext: string) => {
   if (msgtext) {
     //使用store中的sendMessage函式
     const time = getTime();
-    const data = {
-      name: localStorage.getItem("name") || "system",
+    const name = JSON.parse(localStorage.getItem("token")).name
+    const data: userMsg = {
+      name: name,
       msg: msgtext,
       time: time,
     };
+    console.log(data);
     sendMessage(data);
   } else {
     console.log("請輸入訊息");
@@ -200,7 +202,7 @@ const getTime = () => {
           border-radius: 8px;
           word-break: break-all;
           line-height: 1.5;
-          // border: 1px solid orange;
+          border: 1px solid orange;
           // box-sizing: border-box;
           // background-color: antiquewhite;
         }

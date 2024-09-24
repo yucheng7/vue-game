@@ -28,11 +28,12 @@ export const useSocketStore = defineStore("socket", () => {
     console.log(2);
   };
   // 接收伺服器messages事件
-  socket.on("messages", (msg: userMsg) => {
+  socket.on("messages", async (msg: userMsg) => {
     try {
-      const res = service.post("users/savemsgs", msg);
+      console.log("post執行");
+
+      const res = await service.post("/users/savemsgs", msg);
       console.log(res);
-      
     } catch (err) {
       console.log(err);
     }

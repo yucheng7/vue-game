@@ -34,7 +34,7 @@ io.on("connection", (socket) => {
   });
   // 接收sendMessage事件並回覆
   socket.on("sendMessage", (msg) => {
-    console.log("Client sent!: " + msg.smg);
+    console.log("Client sent!: " + msg.msg);
     console.log("before", 3);
 
     // 發送給前端訊息
