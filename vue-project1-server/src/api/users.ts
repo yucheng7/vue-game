@@ -80,34 +80,39 @@ router.get("/userlist", async (req: Request, res: Response) => {
 
 router.post("/savemsgs", async (req: Request, res: Response) => {
   try {
-    const name = req.body.name;
-    const user = await UserModel.findOne({ name: name });
-    console.log("獲得特定使用者成功", user);
-    if (user && user !== null) {
-      try {
-        const userdata = await UserModel.findOneAndUpdate(
-          {
-            name: name,
-          },
-          {
-            $push: {
-              msgArr: req.body.msg,
-            },
-          },
-          {
-            new: true,
-          }
-        );
-        console.log("執行結束", userdata);
-      } catch (error) {
-        console.log("把聊天訊息存入特定使用者失敗", error);
-      }
-    } else {
-      console.log("找不到用户");
+    const { data } = req.body;
+    // console.log(data);
+    const { name, msg, time } = data;
+    // console.log(name, msg, time);
+    const msgItem = {
+      name: name,
+      msg: msg,
+      time: time,
+    };
+
+    const userdata = await UserModel.findOne({ name: name });
+    if (!userdata?.msgArr) {
+      const res = await UserModel.findOneAndUpdate(
+        { name: name },
+        { $set: { msgsArr: [] } },
+        { new: true }
+      );
+      console.log("新增訊息陣列結束", res);
+    }
+
+    const postRes = await UserModel.findOneAndUpdate(
+      { name: name },
+      { $push: { msgsArr: msgItem } },
+      { new: true }
+    );
+    console.log("執行結束", postRes);
+    if (!postRes) {
       res.status(404).json("找不到用户");
+      console.log("把聊天訊息存入特定使用者失敗");
     }
   } catch (err) {
-    console.log("獲取使用者失敗", err);
+    console.log("更新使用者資料失敗", err);
+    res.status(500).json("更新使用者資料失敗");
   }
 });
 
