@@ -1,5 +1,6 @@
 import express, { Request, Response, Application, Router } from "express";
 import UserModel from "../model/UserModel";
+import { log } from "console";
 
 // 設定路由
 const router = Router();
@@ -80,36 +81,31 @@ router.get("/userlist", async (req: Request, res: Response) => {
 
 router.post("/savemsgs", async (req: Request, res: Response) => {
   try {
-    const { data } = req.body;
-    // console.log(data);
-    const { name, msg, time } = data;
-    // console.log(name, msg, time);
+    const data = req.body.data;
     const msgItem = {
-      name: name,
-      msg: msg,
-      time: time,
+      name: data.name,
+      msg: data.msg,
+      time: data.time,
     };
 
-    const userdata = await UserModel.findOne({ name: name });
+    // 如果沒有訊息陣列則新增一個空陣列
+    const userdata = await UserModel.findOne({ name: msgItem.name });
     if (!userdata?.msgArr) {
       const res = await UserModel.findOneAndUpdate(
-        { name: name },
+        { name: msgItem.name },
         { $set: { msgsArr: [] } },
         { new: true }
       );
       console.log("新增訊息陣列結束", res);
     }
-
+    
+    // 把訊息加入訊息陣列
     const postRes = await UserModel.findOneAndUpdate(
-      { name: name },
+      { name: msgItem.name },
       { $push: { msgsArr: msgItem } },
       { new: true }
     );
     console.log("執行結束", postRes);
-    if (!postRes) {
-      res.status(404).json("找不到用户");
-      console.log("把聊天訊息存入特定使用者失敗");
-    }
   } catch (err) {
     console.log("更新使用者資料失敗", err);
     res.status(500).json("更新使用者資料失敗");
