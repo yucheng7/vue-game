@@ -33,7 +33,7 @@ io.on("connection", (socket) => {
     console.log("連接成功");
   });
   // 接收sendMessage事件並回覆
-  socket.once("sendMessage", (msg) => {
+  socket.on("sendMessage", (msg) => {
     console.log("Client sent!: " + msg.name + ":" + msg.msg);
     console.log("before", 3);
 

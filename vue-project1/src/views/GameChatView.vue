@@ -66,7 +66,7 @@ const createText = () => {
 //獲取時間
 const getTime = () => {
   const hr = new Date().getHours();
-  const min = new Date().getMinutes();
+  const min = new Date().getMinutes() < 10 ? `0${new Date().getMinutes()}` : new Date().getMinutes();
   const tw = ref<string>("");
   if (hr <= 12) {
     tw.value = "上午";
